@@ -1,4 +1,4 @@
-function fn(args) {
+function fn() {
 
   var env = karate.env || 'prod';
   karate.log('Test environment :', env);
