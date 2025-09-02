@@ -5,10 +5,11 @@ Feature: list operations
     * param key = apiKey
     * param token = accessToken
     * def naming = call read('classpath:helpers/naming-helper.js')
+    * def path = endpoints.path
 
   @createList
   Scenario: Create a new list under the board
-    * path PostCreateList
+    * path path.lists
     * def listName = (typeof listName != 'undefined' && listName ? listName : naming.getStandartNaming('List'))
     * param idBoard = boardId
     * param name = listName

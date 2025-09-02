@@ -1,54 +1,38 @@
-function fn() {
+function fn(args) {
 
-  var env = karate.env;
-  if (!env) {
-      env = 'test'; 
-    }
-    karate.log('Test environment :', env);
- 
+  var env = karate.env || 'prod';
+  karate.log('Test environment :', env);
 
-  var config = {
-    env: env,
-    baseUrl: 'https://api.trello.com',
-    accessToken: karate.properties['TRELLO_ACCESS_TOKEN'] || 'your-access-token',
-    apiKey: karate.properties['TRELLO_API_KEY'] || 'your-api-key',
-
-
-
-    
-
-
-    //endpoints
-    PostCreateBoard : '/1/boards/',
-    DeleteBoard : '/1/boards/${id}',
-    PostCreateCard : '/1/cards',
-    PutUpdateCard : '/1/cards/${id}',
-    DeleteCard :'/1/cards/${id}',
-    PostCreateOrganization : '/1/organizations/',
-    DeleteOrganization : '/1/organizations/${id}',
-    PostCreateList : '/1/lists'
-
-  }
-
-  if (env == 'test') {
-    config.baseUrl ='https://api.trello.com'
-  }
-
-   karate.configure('headers', karate.read('classpath:helpers/header.js'));
+  // Read endpoints only once
+  var endpoints = karate.callSingle('classpath:config/endpoints.js', { environment: env });
+  //direct access to endpoints in feature files
+  karate.set('endpoints', endpoints);
+    // Read headers only once
+  karate.configure('headers', karate.read('classpath:config/header.js'));
    
 
-   karate.configure('connectTimeout', 10000);
-   karate.configure('readTimeout', 5000);
+  karate.configure('connectTimeout', 10000);
+  karate.configure('readTimeout', 5000);
 
-   // Debug modu için
-   karate.configure('logPrettyRequest', true);
-   karate.configure('logPrettyResponse', true);
-   karate.configure('printEnabled', true);
-   karate.configure('report', { showLog: true, showAllSteps: true });
+   // Debug mode
+  karate.configure('logPrettyRequest', true);
+  karate.configure('logPrettyResponse', true);
+  karate.configure('printEnabled', true);
+  // mask sensitive info in reports like api keys, tokens, etc
+  karate.configure('report', {
+    showLog: true,
+    showAllSteps: true,
+    masks: ['key','Key','token','Token','apiKey','apiToken','Authorization']
+  });
 
 
+    return {
+
+       baseUrl: endpoints.url,
+       accessToken: karate.properties['TRELLO_ACCESS_TOKEN'] || 'your-access-token',
+       apiKey: karate.properties['TRELLO_API_KEY'] || 'your-api-key',
+
+    };
 
 
-
-  return config;
  }

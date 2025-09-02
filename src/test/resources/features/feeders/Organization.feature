@@ -5,11 +5,12 @@ Feature: Organization operations
     * param key = apiKey
     * param token = accessToken
     * def naming = call read('classpath:helpers/naming-helper.js')
+    * def path = endpoints.path
 
   @createOrganization
   Scenario: Create a new organization
     Given url baseUrl
-    * path PostCreateOrganization
+    * path path.organizations
     * param displayName = (typeof name != 'undefined' && name) ? name : naming.getStandartNaming('Organization')
     * request {}
     * method post
@@ -22,7 +23,7 @@ Feature: Organization operations
   @deleteOrganization
   Scenario: Delete organization by id
     * def organizationID = karate.get('id')
-    * path DeleteOrganization.replace('${id}', organizationID)
+    * path path.organizationById(organizationID)
     * request ''
     * method delete
     * status 200
