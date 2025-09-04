@@ -5,8 +5,8 @@ function fn(args){
  var environment = args.environment || 'prod';
  // set base url based on environment
  var url = {
-    prod: 'https://api.trello.com/v1',
-    // qa: 'https://qa.api.trello.com/v1'
+    prod: 'https://api.trello.com/1',
+    // qa: 'https://qa.api.trello.com/1'
  };
 
  var baseUrl = url[environment];
@@ -15,17 +15,14 @@ function fn(args){
  //path builder
  var path = {
 
-    boards: () => '/boards',
-    boardById: (id) => `/boards/${id}`,
-    cards: () => '/cards',
-    cardById: (id) => `/cards/${id}`,
-    organizations: () => '/organizations',
-    organizationById: (id) => `/organizations/${id}`,
-    lists : () => '/lists',
-    listById : (id) => `/lists/${id}`
-
-
-
+    boards: function() { return '/boards'; },
+    boardById: function(id) { return '/boards/' + id; },
+    cards: function() { return '/cards'; },
+    cardById: function(id) { return '/cards/' + id; },
+    organizations: function() { return '/organizations'; },
+    organizationById: function(id) { return '/organizations/' + id; },
+    lists: function() { return '/lists'; },
+    listById: function(id) { return '/lists/' + id; }
 
  };
 

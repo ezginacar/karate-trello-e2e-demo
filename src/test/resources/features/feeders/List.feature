@@ -9,7 +9,7 @@ Feature: list operations
 
   @createList
   Scenario: Create a new list under the board
-    * path path.lists
+    * path endpoints.path.lists()
     * def listName = (typeof listName != 'undefined' && listName ? listName : naming.getStandartNaming('List'))
     * param idBoard = boardId
     * param name = listName
@@ -24,7 +24,7 @@ Feature: list operations
   @deleteList
   Scenario: Dlete list by id
     * def listId = karate.get('id')
-    * path path.listById(cardId)
+    * path endpoints.path.listById(listId)
     * request ''
     * method delete
     * status 200

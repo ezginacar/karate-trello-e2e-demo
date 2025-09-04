@@ -10,7 +10,7 @@ Feature: Card operations
 
   @createCard
   Scenario: Create a card under the list
-    * path path.cards
+    * path endpoints.path.cards()
     * param name = (typeof cardName != 'undefined' && cardName ? cardName : naming.getStandartNaming('Card'))
     * param idList = karate.get('idList')
     * request ''
@@ -24,7 +24,7 @@ Feature: Card operations
   Scenario: Update card name by id and return updated card
     * def cardId = karate.get('id')
     * def newName = (typeof cardName != 'undefined' && cardName ? cardName : naming.getStandartNaming('Card'))
-    * path path.cardById(cardId)
+    * path endpoints.path.cardById(cardId)
     * param name = newName
     * request ''
     * method put
@@ -36,7 +36,7 @@ Feature: Card operations
   @getCardDetails
   Scenario: Get card details
     * def cardId = karate.get('id')
-    * path path.cardById(cardId)
+    * path endpoints.path.cardById(cardId)
     * request ''
     * method get
     * status 200
@@ -46,7 +46,7 @@ Feature: Card operations
   @deleteCard
   Scenario: Delete card by id
     * def cardId = karate.get('id')
-    * path path.cardById(cardId)
+    * path endpoints.path.cardById(cardId)
     * request ''
     * method delete
     * status 200

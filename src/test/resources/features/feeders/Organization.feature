@@ -10,20 +10,20 @@ Feature: Organization operations
   @createOrganization
   Scenario: Create a new organization
     Given url baseUrl
-    * path path.organizations
+    * path endpoints.path.organizations()
     * param displayName = (typeof name != 'undefined' && name) ? name : naming.getStandartNaming('Organization')
     * request {}
     * method post
     * status 200
     * match response.id == "#present"
-    * print "EZO  " , response.id
     * def result = { id: '#(response.id)', name: '#(response.displayName)' }
     * print "Organization created with ID:", result.id
 
   @deleteOrganization
   Scenario: Delete organization by id
     * def organizationID = karate.get('id')
-    * path path.organizationById(organizationID)
+    * def deletePath = endpoints.path.organizationById(organizationID)
+    * path deletePath
     * request ''
     * method delete
     * status 200
