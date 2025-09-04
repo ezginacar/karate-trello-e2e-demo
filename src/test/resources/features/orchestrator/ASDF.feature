@@ -1,4 +1,4 @@
-@e2e
+@ezo
 Feature: E2E Case Study - Complete Trello Workflow
 
   Background: Setup test data
@@ -63,7 +63,7 @@ Feature: E2E Case Study - Complete Trello Workflow
 
 
     # Cleanup created data if test failed
-    * def cleanup =
+    * def cleanup = 
     """
     function() {
       if(scenario.status == 'failed') {
