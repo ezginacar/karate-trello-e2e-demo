@@ -52,4 +52,4 @@ Feature: E2E Case Study - Complete Trello Workflow
     # Step 9: Cleanup - Delete Organization
     * print '\033[1;36m=== Step 9: Cleanup - Delete Organization ===\033[0m'
     * call read('classpath:features/feeders/Organization.feature@deleteOrganization') { id: '#(organization.result.id)' }
-    * print "The organization with id: #(organization.result.id) is deleted successfully"commit -m
+    * print "The organization with id: #(organization.result.id) is deleted successfully"
