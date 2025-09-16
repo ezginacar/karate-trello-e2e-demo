@@ -1,0 +1,18 @@
+version: '3.8'
+
+services:
+  karate-tests:
+    build: .
+    container_name: karate-e2e-demo
+    volumes:
+      - .:/app
+      - maven-repo:/root/.m2
+    environment:
+      - TRELLO_ACCESS_TOKEN=${TRELLO_ACCESS_TOKEN}
+      - TRELLO_API_KEY=${TRELLO_API_KEY}
+    # Dockerfile'daki CMD kullanılacak
+    restart: "no"
+
+volumes:
+  maven-repo:
+    driver: local
