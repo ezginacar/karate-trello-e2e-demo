@@ -16,7 +16,9 @@ Feature: Card operations
     * request ''
     * method post
     * status 200
-    * match $.id == "#notnull"
+    * match response.id == "#notnull"
+    * match response.closed == false
+    * def cardSchema = read('classpath:schemas/card.json')
     * def result = { id: '#(response.id)', name: '#(response.name)', listId: '#(response.idBList)' }
     * print "Card created with ID:", result.id
 

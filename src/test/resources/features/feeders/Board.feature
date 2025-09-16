@@ -18,7 +18,8 @@ Feature: Board operations
     * request ''
     * method post
     * status 200
-    * match $.id == "#notnull"
+    * match response.id == "#notnull"
+    * match response.closed == false
     * def result = { id: '#(response.id)', name: '#(response.name)', organizationId: '#(response.idOrganization)' }
     * print "Board created with ID:", result.id
 

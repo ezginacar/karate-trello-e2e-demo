@@ -33,8 +33,7 @@ cd Karate-Demo
 ### 2. Run test with Docker
 ```bash
 # Run
-docker compose up --build karate-tests
-
+clea
 # Build
 docker build -t karate-e2e-demo .
 docker run --rm karate-e2e-demo

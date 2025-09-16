@@ -16,20 +16,11 @@ Feature: list operations
     * request ''
     * method post
     * status 200
-    * match $.id == "#notnull"
+    * match response.id == "#notnull"
+    * match response.closed == false
     * def result = { id: '#(response.id)', name: '#(response.displayName)', boardId: '#(response.idBoard)' }
     * print "List created with ID:", result.id
 
 
-  @deleteList
-  Scenario: Dlete list by id
-    * def listId = karate.get('id')
-    * path endpoints.path.listById(listId)
-    * request ''
-    * method delete
-    * status 200
-    * print 'The list (' + listId + ') is deleted successfully'
-
-  
 
     
