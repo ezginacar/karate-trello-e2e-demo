@@ -1,26 +1,41 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <configuration>
+
+    <!-- Console appender -->
     <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
         <encoder>
-            <pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n</pattern>
+            <pattern>%msg%n</pattern>
         </encoder>
     </appender>
 
-    <appender name="FILE" class="ch.qos.logback.core.FileAppender">
-        <file>target/karate.log</file>
+    <!-- File appender -->
+    <appender name="ALL_LOGS_FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>target/karate-reports/all-logs.log</file>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>target/karate-reports/all-logs.%d{yyyy-MM-dd}.log</fileNamePattern>
+            <maxHistory>7</maxHistory>
+        </rollingPolicy>
         <encoder>
-            <pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n</pattern>
+            <pattern>%d{HH:mm:ss.SSS} [%thread] %-5level [%logger{36}] [%X{feature}:%X{scenario}] - %msg%n</pattern>
         </encoder>
     </appender>
 
-    <!-- Thymeleaf loglarını sadece ERROR seviyesinde göster -->
-    <logger name="org.thymeleaf" level="ERROR"/>
-    <!-- Karate loglarını INFO seviyesine düşür -->
-    <logger name="com.intuit.karate" level="INFO"/>
+    <!-- Should seen Karate logs on file and console -->
+    <logger name="com.intuit.karate" level="DEBUG" additivity="false">
+        <appender-ref ref="ALL_LOGS_FILE"/>
+        <appender-ref ref="STDOUT"/>
+    </logger>
 
+    <logger name="com.intuit.karate.core" level="DEBUG" />
 
+    <!-- HTTP logs should seen only file -->
+    <logger name="com.intuit.karate.http" level="OFF" additivity="false">
+        <appender-ref ref="ALL_LOGS_FILE"/>
+    </logger>
+
+    <!-- Root info only -->
     <root level="INFO">
-        <appender-ref ref="STDOUT" />
-        <appender-ref ref="FILE" />
+        <appender-ref ref="STDOUT"/>
+        <appender-ref ref="ALL_LOGS_FILE"/>
     </root>
 </configuration>

@@ -1,41 +1,38 @@
 function fn() {
-  java.lang.System.setProperty('logback.configurationFile', 'src/test/resources/logback-test.xml');
 
-  var env = karate.env;
-  if (!env) {
-      env = 'test'; // default değer
-    }
-    karate.log('Test environment :', env);
+  var env = karate.env || 'prod';
+  karate.log('Test environment :', env);
+
+  // Read endpoints only once
+  var endpoints = karate.callSingle('classpath:config/endpoints.js', { environment: env });
+  //direct access to endpoints in feature files
+  karate.set('endpoints', endpoints);
+    // Read headers only once
+  karate.configure('headers', karate.read('classpath:config/header.js'));
+   
+
+  karate.configure('connectTimeout', 10000);
+  karate.configure('readTimeout', 5000);
+
+   // Debug mode
+  karate.configure('logPrettyRequest', true);
+  karate.configure('logPrettyResponse', true);
+  karate.configure('printEnabled', true);
+  // mask sensitive info in reports like api keys, tokens, etc
+  karate.configure('report', {
+    showLog: true,
+    showAllSteps: true,
+    masks: ['key','Key','token','Token','apiKey','apiToken','Authorization']
+  });
 
 
-  var config = {
-    env: env,
-    accessToken : 'e23c998dac52c53e201eb580532f4dc77690afb1a539eb2c068ed79307589c21',
-    apiKey : 'e2f4dc48ca5fe1543d15bf268ec6832a',
-    baseUrl: 'https://api.trello.com',
+    return {
 
-    //endpoints
-    PostCreateBoard : '/1/boards/',
-    DeleteBoard : '/1/boards/${id}',
-    PostCreateCard : '/1/cards',
-    PutUpdateCard : '/1/cards/${id}',
-    DeleteCard :'/1/cards/${id}',
-    PostCreateOrganization : '/1/organizations/',
-    DeleteOrganization : '/1/organizations/${id}',
-    PostCreateList : '/1/lists'
+       baseUrl: endpoints.url,
+       accessToken: karate.properties['TRELLO_ACCESS_TOKEN']
+       apiKey: karate.properties['TRELLO_API_KEY']
 
-  }
+    };
 
-  if (env == 'test') {
-    config.baseUrl ='https://api.trello.com'
-  }
 
-   karate.configure('headers', karate.read('classpath:header.js'));
-
-   karate.configure('connectTimeout', 10000);
-   karate.configure('readTimeout', 5000);
-
-   karate.configure('report',{ showLog: true, showAllSteps: false })
-
-  return config;
  }
