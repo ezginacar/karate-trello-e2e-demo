@@ -4,8 +4,8 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>com.testinium.trello</groupId>
-    <artifactId>Karate-K6-Demo</artifactId>
+    <groupId>com.ezginacar.trello</groupId>
+    <artifactId>Karate-Trello-E2e-Demo</artifactId>
     <version>1.0-SNAPSHOT</version>
 
     <properties>
@@ -42,18 +42,11 @@
             <scope>test</scope>
         </dependency>
 
-
         <dependency>
             <groupId>org.junit.jupiter</groupId>
             <artifactId>junit-jupiter</artifactId>
             <version>${jupiter.version}</version>
             <scope>test</scope>
-        </dependency>
-
-        <dependency>
-            <groupId>org.apache.httpcomponents</groupId>
-            <artifactId>httpclient</artifactId>
-            <version>4.5.14</version>
         </dependency>
 
         <dependency>
@@ -74,19 +67,6 @@
             <version>${logback.version}</version>
         </dependency>
 
-
-        <dependency>
-            <groupId>com.github.javafaker</groupId>
-            <artifactId>javafaker</artifactId>
-            <version>1.0.2</version>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.junit.jupiter</groupId>
-            <artifactId>junit-jupiter</artifactId>
-            <version>RELEASE</version>
-            <scope>test</scope>
-        </dependency>
     </dependencies>
 
     <build>
@@ -99,7 +79,6 @@
                 </includes>
             </testResource>
         </testResources>
-
 
         <plugins>
             <plugin>
@@ -117,11 +96,16 @@
                 <artifactId>maven-surefire-plugin</artifactId>
                 <version>${mvn.surefire.version}</version>
                 <configuration>
-                    <forkCount>0</forkCount>
+                    <forkCount>1</forkCount>
                     <reuseForks>false</reuseForks>
                     <includes>
                         <include>**/*Test.java</include>
                     </includes>
+                    <!-- Log configuration -->
+                    <argLine>-Dlogback.configurationFile=src/test/resources/logback-test.xml</argLine>
+                    <!-- Show print logs -->
+                    <redirectTestOutputToFile>false</redirectTestOutputToFile>
+                    <useFile>false</useFile>
                 </configuration>
             </plugin>
 
