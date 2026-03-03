@@ -1,4 +1,4 @@
-version: '3.8'
+version: "3.8"
 
 services:
   karate-tests:
@@ -10,9 +10,34 @@ services:
     environment:
       - TRELLO_ACCESS_TOKEN=${TRELLO_ACCESS_TOKEN}
       - TRELLO_API_KEY=${TRELLO_API_KEY}
-    # Dockerfile'daki CMD kullanılacak
     restart: "no"
+
+  n8n:
+    image: n8nio/n8n:latest
+    container_name: n8n
+    ports:
+      - "5678:5678"
+    environment:
+      - TZ=Europe/Istanbul
+
+      # Local kullanım için:
+      - N8N_HOST=localhost
+      - N8N_PORT=5678
+      - N8N_PROTOCOL=http
+
+      # Basit auth kullanımı için:
+      - N8N_BASIC_AUTH_ACTIVE=true
+      - N8N_BASIC_AUTH_USER=${N8N_BASIC_AUTH_USER}
+      - N8N_BASIC_AUTH_PASSWORD=${N8N_BASIC_AUTH_PASSWORD}
+
+      # n8n verisi kalıcı olsun
+      - N8N_USER_FOLDER=/home/node/.n8n
+    volumes:
+      - n8n_data:/home/node/.n8n
+    restart: unless-stopped
 
 volumes:
   maven-repo:
+    driver: local
+  n8n_data:
     driver: local
