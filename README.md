@@ -52,7 +52,6 @@ karate-trello-e2e-demo/
 ├── docker-compose.yml
 ├── pom.xml
 └── README.md
-
 ---
 
 ## 🔐 Secret Management
