@@ -9,7 +9,7 @@ Feature: Board operations
 
   @createBoard
   Scenario: Create a new board
-    * path path.boards
+    * path path.boards()
     * def boardName = (typeof boardName != 'undefined' && boardName ? boardName : naming.getStandartNaming('Board'))
      #Determine organization ID based on available parameters
     * def orgId = (typeof idOrganization != 'undefined' && idOrganization) ? idOrganization : (typeof organizationId != 'undefined' && organizationId) ? organizationId : (typeof id != 'undefined' && id) ? id : null

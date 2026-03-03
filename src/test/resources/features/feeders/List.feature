@@ -9,7 +9,7 @@ Feature: list operations
 
   @createList
   Scenario: Create a new list under the board
-    * path path.lists
+    * path path.lists()
     * def listName = (typeof listName != 'undefined' && listName ? listName : naming.getStandartNaming('List'))
     * param idBoard = boardId
     * param name = listName

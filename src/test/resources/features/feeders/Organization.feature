@@ -9,8 +9,7 @@ Feature: Organization operations
 
   @createOrganization
   Scenario: Create a new organization
-    Given url baseUrl
-    * path path.organizations
+    * path path.organizations()
     * param displayName = (typeof name != 'undefined' && name) ? name : naming.getStandartNaming('Organization')
     * request {}
     * method post
