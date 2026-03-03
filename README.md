@@ -36,6 +36,9 @@ Cleanup can be handled either directly in Karate or orchestrated via n8n webhook
 
 ## 📁 Project Structure
 
+## 📁 Project Structure
+
+```
 karate-trello-e2e-demo/
 ├── src/
 │   └── test/
@@ -52,7 +55,7 @@ karate-trello-e2e-demo/
 ├── docker-compose.yml
 ├── pom.xml
 └── README.md
----
+```
 
 ## 🔐 Secret Management
 
