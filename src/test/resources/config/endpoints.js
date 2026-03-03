@@ -2,6 +2,7 @@ function fn(args){
 // env-> qa, prod, etc
 
  //from karate-config.js
+ /*
  var environment = args.environment || 'prod';
  // set base url based on environment
  var url = {
@@ -10,6 +11,7 @@ function fn(args){
  };
 
  var baseUrl = url[environment];
+ */
 
 
  //path builder
@@ -29,7 +31,8 @@ function fn(args){
 
  };
 
- return {url: baseUrl , path: path} ;
+ //return {url: baseUrl , path: path} ;
+   return {url: 'https://api.trello.com/1', path: path} ;
 
 
 }

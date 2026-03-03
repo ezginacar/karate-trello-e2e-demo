@@ -10,7 +10,7 @@ Feature: Card operations
 
   @createCard
   Scenario: Create a card under the list
-    * path path.cards
+    * path path.cards()
     * param name = (typeof cardName != 'undefined' && cardName ? cardName : naming.getStandartNaming('Card'))
     * param idList = karate.get('idList')
     * request ''
