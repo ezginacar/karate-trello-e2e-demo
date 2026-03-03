@@ -1,158 +1,141 @@
-# Karate Demo Project
 
-This project is a demo that tests E2E case with Karate Framework
+# 🧪 Karate Trello E2E Automation Demo
 
-## 🚀 Features
+Enterprise-style End-to-End API automation project built with Karate Framework.
+This project demonstrates Trello API integration, Dockerized execution, secure secret management, and resource lifecycle cleanup.
 
-- **Karate Framework** >API Test
-- **Trello API** > Integration
-- **Docker** >Support
-- **Maven** >Build
-- **Java 11** >Runtime
-- **E2E Test** >Test Scenario
+---
 
-## 📋 Requirements
+## 🚀 Tech Stack
 
-### Docker  (Recommended)
-- Docker Desktop
-- Git
+- Karate Framework (API Test Automation)
+- Trello API (Integration)
+- Java 11 (Runtime)
+- Maven (Build Tool)
+- Docker (Containerized Execution)
+- n8n (Optional Workflow Orchestration)
 
-### Manual Setup
-- Java 11+
-- Maven 3.6+
-- Git
+---
 
-## 🐳 Quick Start with Docker 
+## 🧪 Test Scenario (E2E Lifecycle)
 
-### 1. Clone the project
-```bash
-git clone https://github.com/ezginacar/karate-trello-e2e-demo.git
-cd Karate-Demo
-```
+The project validates a complete Trello resource lifecycle:
 
-### 2. Run test with Docker
-```bash
-# Run
-docker compose up --build karate-tests
+Organization → Board → List → Card  
+                ↓  
+            Update Card  
+                ↓  
+        Cleanup (Reverse Order)
 
-# Build
-docker build -t karate-e2e-demo .
-docker run --rm karate-e2e-demo
+Cleanup order:
+Card → List (Archive) → Board → Organization
 
-# Other Maven commands
-docker run --rm karate-e2e-demo mvn clean install
-docker run --rm karate-e2e-demo mvn clean compile
-docker run --rm karate-e2e-demo mvn dependency:tree
-```
+Cleanup can be handled either directly in Karate or orchestrated via n8n webhook.
 
-## 🔧 Manual Setup
-
-### 1. Java 11 Installation
-```bash
-# macOS
-brew install openjdk@11
-export JAVA_HOME=/opt/homebrew/opt/openjdk@11
-
-# Ubuntu/Debian
-sudo apt-get install openjdk-11-jdk
-
-# Windows
-# Oracle JDK 11 download and setup
-```
-
-### 2. Maven Installation
-```bash
-# macOS
-brew install maven
-
-# Ubuntu/Debian
-sudo apt-get install maven
-
-# Windows
-# Download the Maven binary and add the PATH
-```
-
-### 3. Run the projects
-```bash
-# Download the dependencies
-mvn dependency:resolve
-
-# Run tests
-mvn clean test -DTest='TestRunner'
-```
+---
 
 ## 📁 Project Structure
 
-```
-Karate-K6-Demo/
+karate-trello-e2e-demo/
 ├── src/
-│   ├── test/
-│   │   ├── java/
-│   │   │   └── runner/
-│   │   │       └── TestRunner.java
-│   │   └── resources/
-│   │       ├── features/
-│   │       │   └── CaseStudy.feature
-│   │       ├── karate-config.js
-│   │       ├── header.js
-│   │       ├── faker-helpers.js
-│   │       ├── DataCleanup.js
-│   │       └── logback-test.xml
+│   └── test/
+│       ├── java/
+│       │   └── runner/
+│       │       └── TestRunner.java
+│       └── resources/
+│           ├── features/
+│           ├── config/
+│           ├── helpers/
+│           ├── karate-config.js
+│           └── logback-test.xml
 ├── Dockerfile
 ├── docker-compose.yml
-├── .dockerignore
 ├── pom.xml
 └── README.md
-```
 
-## 🧪 Test Case
+---
 
-### E2E Trello Workflow
-- **Organization** >Create
-- **Board** >Create
-- **List** >Create
-- **Card** >Create and update
-- **Resource cleanup**  (Automatic cleanup when the test case failed)
+## 🔐 Secret Management
 
-### Test Features
-- ✅ **Random data generation** (JavaFaker)
-- ✅ **Resource tracking** (Automatic cleanup)
-- ✅ **Clean logging** (Clean output in console)
-- ✅ **Error handling**
-- ✅ **Docker support** (platform independent)
-- ✅ **Parallel execution**  (support)
+No API keys are stored in the repository.
 
-## 🔑 Configuration
+Secrets are injected via environment variables:
 
-### API Keys
-Trello API keys> `src/test/resources/karate-config.js`;
+### macOS / Linux
 
-```javascript
-var config = {
-    accessToken: 'your-access-token',
-    apiKey: 'your-api-key',
-    baseUrl: 'https://api.trello.com'
-}
-```
-
-### Environment Variables
-```bash
-# Docker 
-export TRELLO_API_KEY=your-api-key
+export TRELLO_API_KEY=your-api-key  
 export TRELLO_ACCESS_TOKEN=your-access-token
 
-# Manual installation
-export JAVA_HOME=/path/to/java11
-export MAVEN_OPTS="-Xmx512m"
+### Windows (PowerShell)
+
+setx TRELLO_API_KEY "your-api-key"  
+setx TRELLO_ACCESS_TOKEN "your-access-token"
+
+Karate reads them via environment:
+
+```javascript
+accessToken: karate.properties['TRELLO_ACCESS_TOKEN'] 
+  || java.lang.System.getenv('TRELLO_ACCESS_TOKEN'),
+
+apiKey: karate.properties['TRELLO_API_KEY'] 
+  || java.lang.System.getenv('TRELLO_API_KEY')
 ```
+
+---
+
+## 🐳 Run with Docker (Recommended)
+
+### 1. Clone Repository
+
+git clone https://github.com/ezginacar/karate-trello-e2e-demo.git  
+cd karate-trello-e2e-demo
+
+### 2. Run Tests
+
+docker compose up --build karate-tests
+
+Or:
+
+docker compose run --rm karate-tests mvn clean test
+
+---
+
+## 🛠 Manual Setup
+
+### Requirements
+
+- Java 11+
+- Maven 3.6+
+
+### Run Tests
+
+mvn clean test
+
+---
 
 ## 📊 Test Reports
 
-- **HTML Report**: `target/karate-reports/karate-summary.html`
-- **JSON Report**: `target/karate-reports/all-logs.log`
-- **All Logs**: `target/karate-reports/karate-repors`
+After execution:
 
+HTML Report:  
+target/karate-reports/karate-summary.html
 
+Open this file in your browser to see detailed execution results.
 
+---
 
-## 🚨 Note: It may take a long time because Maven dependencies will be downloaded on the first run.
+## 🧠 Engineering Concepts Demonstrated
+
+- End-to-End API lifecycle testing
+- Dynamic test data generation
+- Secure secret handling
+- Reverse-order cleanup strategy
+- Modular feature structure
+- Dockerized execution
+- Optional external orchestration (n8n)
+
+---
+
+## ⚠️ First Run Notice
+
+The first execution may take longer because Maven dependencies will be downloaded.
