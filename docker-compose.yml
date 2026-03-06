@@ -11,6 +11,8 @@ services:
       - TRELLO_ACCESS_TOKEN=${TRELLO_ACCESS_TOKEN}
       - TRELLO_API_KEY=${TRELLO_API_KEY}
     restart: "no"
+    depends_on:
+      - n8n
 
   n8n:
     image: n8nio/n8n:latest

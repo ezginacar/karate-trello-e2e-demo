@@ -1,8 +1,6 @@
 @n8n
 Feature: Test Trello Workflow with n8n Integration
 
-
-
   Scenario: Successfull Create New Trello List with n8n Integration
     #precondition: we have an existing organization, board.
     # List will create in n8n workflow and then we will update list name in Karate and verify the update with n8n workflow.
@@ -21,12 +19,14 @@ Feature: Test Trello Workflow with n8n Integration
       boardId: '#string'
     }
     """
-
-    # cleanup için sakla
-    * def createdListId = response.listId
-
-    # Step
     * print '\033[1;36m=== List Created with n8n Integration  ===\033[0m'
+    # set list id  to clean up
+
+     # Step : update list name
+    * def list = call read('classpath:features/feeders/List.feature@updateList') { id: '#(response.listId)', queryParams: {name: 'To Do' }}
+    * match list.result.id == response.listId
+    * match list.result.name == 'To Do'
+    * print 'List Name Updated Successfully. New Lard Name is: >> ', list.result.name
 
 
 

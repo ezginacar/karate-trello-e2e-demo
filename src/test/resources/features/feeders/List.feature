@@ -19,3 +19,14 @@ Feature: list operations
     * match $.id == "#notnull"
     * def result = { id: '#(response.id)', name: '#(response.displayName)', boardId: '#(response.idBoard)' }
     * print "List created with ID:", result.id
+
+
+  @updateList
+  Scenario: Update list name by id and return updated list
+    * def listId = karate.get('id')
+    * path path.listById(listId)
+    * params queryParams
+    * request ''
+    * method put
+    * status 200
+    * def result = { id: '#(response.id)', name: '#(response.name)', boardId: '#(response.idBoard)' }
