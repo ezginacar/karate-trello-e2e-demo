@@ -1,18 +1,19 @@
-var trelloItems = [];
+(function() {
+    var trelloItems = {};
 
-function addTrelloItem(itemName, id) {
-    var entity = { type: itemName, id: id };
-    trelloItems.push(entity);
-    karate.log('Added ' + itemName + ' with id: ' + id);
-}
+    function addTrelloItem(itemType, id) {
+        if(!trelloItems[itemType]) {
+            trelloItems[itemType] = [];
+        }
+        trelloItems[itemType].push(id);
+        karate.log('Added ' + itemType + ' with id: ' + id);
+    }
 
-function getTrelloItems() {
-    return trelloItems;
-}
+    function getTrelloItems() {  return trelloItems; }
 
-function clear() {
-trelloItems = [];
-karate.log('Cleared all Trello items from cleanup list.');
-}
-
-{addTrelloItem: add, getTrelloItems: get, clear: clear}
+    function clearAll() {
+        trelloItems = {};
+        karate.log('Cleared all Trello items from cleanup list.');
+    }
+    return {add: addTrelloItem, get: getTrelloItems, clearAll: clearAll};
+})()
