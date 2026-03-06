@@ -32,7 +32,8 @@ function fn() {
     return {
          baseUrl: endpoints.url,
          accessToken: karate.properties['TRELLO_ACCESS_TOKEN'] || java.lang.System.getenv('TRELLO_ACCESS_TOKEN'),
-         apiKey: karate.properties['TRELLO_API_KEY'] || java.lang.System.getenv('TRELLO_API_KEY')
+         apiKey: karate.properties['TRELLO_API_KEY'] || java.lang.System.getenv('TRELLO_API_KEY'),
+         n8nUrl: 'http://n8n:5678'
 
     };
 
